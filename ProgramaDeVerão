@@ -1,0 +1,256 @@
+#include <iostream>
+#include <cstdlib>
+#include <stdlib.h>
+#include <iomanip>
+#include <cstring>
+#include <string> 
+#include <math.h>
+
+/*Informações à armazenar:
+Código de Cadastro(Gerar ou Inserir)
+Nome(Salvar Nome Maiúsculo)
+Data Nasc
+CPF
+Cargo
+Email
+Data de Admissão
+Salário Inicial
+Salário Atual(Se possuir +1 ano add aumento 5% por ano)
+
+Menu Inicial
+Novo Funcionário
+Consultar Funcionarios
+Ordernar Funcionarios
+Excluir Funcionarios
+Sobre o software
+
+Criar Menu de Consulta:
+Código de Cadastro
+Nome
+Cargo
+
+Menu de ordenar lista por:
+Nome
+Data Nasc
+Cargo
+Data de Admissão
+Salário
+
+Add imprimir lista ordenada;
+
+Add remover funcionário pelo código;
+
+Os itens serão impressos em tabelas.*/
+
+
+
+
+
+
+
+/*=================================*
+ *                                 *
+ * 	      	Programmer LX          *
+ *     	 + 55 27 999793338         *
+ *	 charlesluxinger@hotmail.com   *
+ *                                 * 
+ *=================================*/
+
+using namespace std;
+
+//Declaração de Variáveis
+	struct Data{
+		int Dia, Mes, Ano;
+	};
+	struct Dados{
+		int CodCad;
+		long long int CPF;
+		char Nome[51], Cargo[31], Email[31];
+		Data Nasc, Admissao;
+		float SalIni, SalAtual;
+	}Cadastro[50];
+	
+//Declaração de Funções
+void Menu();
+void FuncCadastro ();
+void FuncConsulta ();
+
+int main (){
+	
+	Menu();
+		
+system ("pause");
+return 0;
+}
+void Menu(){
+	//Menu Inicial
+	int menu;
+	cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+	cout <<setw(25)<< "MENU INICIAL\n\n";
+	cout <<setw(10)<< "1 - CADASTRO FUNCIONARIO\n";
+	cout <<setw(10)<< "2 - CONSULTAR FUNCIONARIO\n";
+	cout <<setw(10)<< "3 - ORDERNAR FUNCIONARIO\n";
+	cout <<setw(10)<< "4 - EXCLUIR FUNCIONARIO\n";
+	cout <<setw(10)<< "5 - SOBRE O PROGRAMA\n\n";
+	cout <<setw(10)<< ">>  DIGITE UMA OPCAO: ";
+	cin>> menu;
+	system("cls");
+	
+	switch (menu){
+		case 1: 
+			//Cadastro de Funcionario
+			FuncCadastro ();
+			break;
+						
+		case 2:
+			//Consultar Funcionario
+			FuncConsulta ();
+			break;
+		
+		case 3:
+			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+			cout << "EM CONSTRUCAO\n\n";
+			break;
+		
+		case 4:
+			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+			cout << "EM CONSTRUCAO\n\n";
+			break;
+		
+		case 5:
+			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+			cout << "EM CONSTRUCAO\n\n";
+			break;
+		
+		default:
+			cout << "OPCAO INVALIDA\n\n";
+			break;
+	}
+}
+void FuncCadastro (){
+			//Cadastro de Funcionario
+		
+			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n";
+			int Qtd;
+			cout << "DESEJA CADASTRAR QUANTOS FUNCIONARIOS: ";
+			cin >> Qtd;
+			system("cls");
+			cin.ignore();
+			
+			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n";
+			for (int x=0; x<Qtd; x++){
+			cout <<"DIGITE O CODIGO DE CADASTRO: ";
+			cin >> Cadastro[x].CodCad;
+			cin.ignore();
+			cout << "DIGITE O NOME DO FUNCIONARIO: ";
+			cin.getline (Cadastro[x].Nome, 51);
+			cout <<"DIGITE O CPF: ";
+			cin >> Cadastro[x].CPF;
+			cout << "DIGITE O DATA DE NASCIMENTO(DIA(00) MES(00) ANO(0000)): ";
+			cin >> Cadastro[x].Nasc.Dia >> Cadastro[x].Nasc.Mes >> Cadastro[x].Nasc.Ano;
+			cin.ignore();
+			cout << "DIGITE O EMAIL(USUARIO@PROVEDOR.COM.BR): ";
+			cin.getline (Cadastro[x].Email, 31);
+			cout << "DIGITE O CARGO: ";
+			cin.getline (Cadastro[x].Cargo, 31);
+			cout << "DIGITE A DATA DE ADMISSAO(DIA(00) MES(00) ANO(0000)): ";
+			cin >> Cadastro[x].Admissao.Dia >> Cadastro[x].Admissao.Mes >> Cadastro[x].Admissao.Ano;
+			cout << "DIGITE O SALARIO INICIAL: ";
+			cin >> Cadastro[x].SalIni;
+			cout << "\n\n";
+		
+			
+			//Cálculo de Aumento Salário
+			if (Cadastro[x].Admissao.Ano < 2017){
+				int TotalAno;
+				TotalAno=(2017 - Cadastro[x].Admissao.Ano);
+					for (int z=0; z<TotalAno; z++)
+					Cadastro[x].SalAtual= Cadastro[x].SalIni*pow((1+0.05), TotalAno);
+					
+			}
+		}
+			
+			//Confirmação de dados
+			system("cls");
+			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n";
+			for (int x=0; x<Qtd; x++){		
+			cout << "\nCODIGO: " << Cadastro[x].CodCad;
+			cout << "\nNOME: " << Cadastro[x].Nome;
+			cout << "\nCPF: " << Cadastro[x].CPF;
+			cout << "\nDATA DE NASCIMENTO: " << Cadastro[x].Nasc.Dia <<"/"<< Cadastro[x].Nasc.Mes <<"/"<< Cadastro[x].Nasc.Ano;
+			cout << "\nEMAIL: " << Cadastro[x].Email;
+			cout << "\nCARGO: " << Cadastro[x].Cargo;
+			cout << "\nDATA DA ADMISSAO: " << Cadastro[x].Admissao.Dia <<"/"<< Cadastro[x].Admissao.Mes <<"/"<< Cadastro[x].Admissao.Ano;
+			cout << "\nSALARIO INICIAL: " << Cadastro[x].SalIni;
+			if (Cadastro[x].Admissao.Ano < 2017)
+			cout << "\nSALARIO ATUAL: " << Cadastro[x].SalAtual;
+			cout << "\n\n";
+			}
+			
+			bool Acerto;
+			cout << "\n>> OS DADOS CONFEREM(1-SIM 0-NAO): ";
+			cin >> Acerto;
+			
+			if (Acerto==0)
+				FuncCadastro ();
+			else
+				system("cls");
+				Menu();
+			
+			
+			cin.ignore();
+			cout << "\n\n";
+			
+		}
+	
+void FuncConsulta (){
+	cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+		cout <<setw(10)<< ">>  DIGITE O CODIGO DO FUNCIONARIO: ";
+		int CodConsulta;
+		cin >> CodConsulta;
+		
+		for (int x=0; x<50; x++){
+			if (CodConsulta==Cadastro[x].CodCad){
+				cout << "\nCODIGO: " << Cadastro[x].CodCad;
+				cout << "\nNOME: " << Cadastro[x].Nome;
+				cout << "\nCPF: " << Cadastro[x].CPF;
+				cout << "\nDATA DE NASCIMENTO: " << Cadastro[x].Nasc.Dia <<"/"<< Cadastro[x].Nasc.Mes <<"/"<< Cadastro[x].Nasc.Ano;
+				cout << "\nEMAIL: " << Cadastro[x].Email;
+				cout << "\nCARGO: " << Cadastro[x].Cargo;
+				cout << "\nDATA DA ADMISSAO: " << Cadastro[x].Admissao.Dia <<"/"<< Cadastro[x].Admissao.Mes <<"/"<< Cadastro[x].Admissao.Ano;
+				cout << "\nSALARIO INICIAL: " << Cadastro[x].SalIni;
+				if (Cadastro[x].Admissao.Ano < 2017)
+				cout << "\nSALARIO ATUAL: " << Cadastro[x].SalAtual;
+				cout << "\n\n";
+				bool Acerto;
+					cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
+					cin >> Acerto;
+			
+					if (Acerto==1){
+						system("cls");
+						FuncConsulta ();
+					}
+					else{
+						system("cls");
+						Menu();
+					}	
+				break;
+			}
+				else{
+					cout << "\nCODIGO INEXISTENTE\n";
+				
+					bool Acerto;
+					cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
+					cin >> Acerto;
+			
+					if (Acerto==1){
+						system("cls");
+						FuncConsulta ();
+					}
+					else{
+						system("cls");
+						Menu();
+					}	
+				}
+		}	
+}
