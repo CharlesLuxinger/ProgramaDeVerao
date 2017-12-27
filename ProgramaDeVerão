@@ -11,26 +11,26 @@
 
 /*Informações à armazenar:
 Código de Cadastro(Gerar ou Inserir)
-Nome(Salvar Nome Maiúsculo)
-Data Nasc
-CPF
-Cargo
-Email
-Data de Admissão
-Salário Inicial
-Salário Atual(Se possuir +1 ano add aumento 5% por ano)
+Nome(Salvar Nome Maiúsculo) ✔
+Data Nasc ✔
+CPF(Validação de numero de CPF) ✔
+Cargo ✔
+Email ✔
+Data de Admissão ✔
+Salário Inicial ✔
+Salário Atual(Se possuir +1 ano add aumento 5% por ano) ✔
 
-Menu Inicial
-Novo Funcionário
-Consultar Funcionarios
+Menu Inicial ✔
+Novo Funcionário ✔
+Consultar Funcionarios ✔
 Ordernar Funcionarios
-Excluir Funcionarios
+Excluir Funcionarios ✔
 Sobre o software
 
-Criar Menu de Consulta:
-Código de Cadastro
-Nome
-Cargo
+Criar Menu de Consulta: ✔
+Código de Cadastro ✔
+Nome ✔
+CPF ✔
 
 Menu de ordenar lista por:
 Nome
@@ -41,15 +41,14 @@ Salário
 
 Add imprimir lista ordenada;
 
-Add remover funcionário pelo código;
-
-Os itens serão impressos em tabelas.*/
+Add remover funcionário pelo código; ✔
+*/
 
 /*=================================*
  *                                 *
- * 	    	Programmer LX          *
+ * 	    Programmer LX          *
  *   	 + 55 27 999793338         *
- *	 charlesluxinger@hotmail.com   *
+ *   charlesluxinger@hotmail.com   *
  *                                 * 
  *=================================*/
 
