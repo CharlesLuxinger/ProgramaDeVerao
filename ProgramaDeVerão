@@ -3,582 +3,692 @@
 #include <stdlib.h>
 #include <iomanip>
 #include <cstring>
-#include <string.h> 
+#include <string.h>
 #include <math.h>
 #include <stdio.h>
 #include <ctime>
-
-
+ 
+ 
 /*Informações à armazenar:
 Código de Cadastro(Gerar ou Inserir)
-Nome(Salvar Nome Maiúsculo) ✔
-Data Nasc ✔
-CPF(Validação de numero de CPF) ✔
-Cargo ✔
-Email ✔
-Data de Admissão ✔
-Salário Inicial ✔
-Salário Atual(Se possuir +1 ano add aumento 5% por ano) ✔
-
-Menu Inicial ✔
-Novo Funcionário ✔
-Consultar Funcionarios ✔
+Nome(Salvar Nome Maiúsculo)
+Data Nasc
+CPF
+Cargo
+Email
+Data de Admissão
+Salário Inicial
+Salário Atual(Se possuir +1 ano add aumento 5% por ano)
+ 
+Menu Inicial
+Novo Funcionário (Antes de entrar na funcão Cadastrar, verificar se a lista está Cheia)
+Consultar Funcionarios
 Ordernar Funcionarios
-Excluir Funcionarios ✔
+Excluir Funcionarios (Antes de entrar na funcão Excluir, verificar se a lista está Vazia)
 Sobre o software
-
-Criar Menu de Consulta: ✔
-Código de Cadastro ✔
-Nome ✔
-CPF ✔
-
+ 
+Criar Menu de Consulta:
+Código de Cadastro
+Nome
+Cargo
+ 
 Menu de ordenar lista por:
 Nome
 Data Nasc
 Cargo
 Data de Admissão
 Salário
-
+ 
 Add imprimir lista ordenada;
-
-Add remover funcionário pelo código; ✔
-*/
-
+ 
+Add remover funcionário pelo código;
+ 
+Os itens serão impressos em tabelas.*/
+ 
 /*=================================*
  *                                 *
- * 	    Programmer LX          *
- *   	 + 55 27 999793338         *
+ *          Programmer LX          *
+ *       + 55 27 999793338         *
  *   charlesluxinger@hotmail.com   *
- *                                 * 
+ *                                 *
  *=================================*/
-
+ 
 using namespace std;
-
+ 
 //Declaração de Variáveis
-	int x, MenuInic, MenuConsult;
-	struct Data{
-		int Dia, Mes, Ano;
-	};
-	struct Dados{
-		int CodCad;
-		char CPF[12];
-		char Nome[51], Cargo[31], Email[31];
-		Data Nasc, Admissao;
-		float SalIni, SalAtual;
-	}Cadastro[50];
-	
+    int x, Qtd;
+    struct Data{
+        int Dia, Mes, Ano;
+    };
+    struct Dados{
+        int CodCad;
+        char CPF[12];
+        char Nome[51], Cargo[31], Email[31];
+        Data Nasc, Admissao;
+        float SalIni, SalAtual;
+    };
+   
 //Declaração de Funções
 void MenuInicial();
 void MenuConsulta ();
+void MenuOrdenar ();
 void FuncCadastro ();
 void FuncConsultaCod ();
 void FuncConsultaNome ();
 void FuncConsultaCPF ();
-void Maiuscula (char n[]);
+int OrdenarCod ();
+int OrdenarNome ();
+int OrdenarDataAdm ();
 void FuncExcluir();
+void Maiuscula (char n[]);
 int ValCPF();
-
-
+ 
+Dados *Cadastro = new Dados[Qtd];
+ 
 int main (){
-	
-	MenuInicial ();
-		
+   
+    MenuInicial ();
+       
 system ("pause");
 return 0;
 }
-
-void MenuInicial(){
-	//Menu Inicial
-	cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
-	cout <<setw(25)<< "MENU INICIAL\n\n";
-	cout <<setw(10)<< "1 - CADASTRO FUNCIONARIO\n";
-	cout <<setw(10)<< "2 - CONSULTAR FUNCIONARIO\n";
-	cout <<setw(10)<< "3 - ORDERNAR FUNCIONARIO\n";
-	cout <<setw(10)<< "4 - EXCLUIR FUNCIONARIO\n";
-	cout <<setw(10)<< "5 - SOBRE O PROGRAMA\n\n";
-	cout <<setw(10)<< ">>  DIGITE UMA OPCAO: ";
-	cin>> MenuInic;
-	system("cls");
-	
-	switch (MenuInic){
-		case 1: 
-			//Cadastro de Funcionario
-			FuncCadastro ();
-			break;
-						
-		case 2:
-			//Menu Consulta
-			MenuConsulta ();
-			break;
-		
-		case 3:
-			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
-			cout << "EM CONSTRUCAO\n\n";
-			break;
-		
-		case 4:
-			FuncExcluir ();
-			break;
-		
-		case 5:
-			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
-			cout << "EM CONSTRUCAO\n\n";
-			break;
-		
-		default:
-			cout << "OPCAO INVALIDA\n\n";
-			system("pause");
-			system("cls");
-			MenuInicial();
-			break;
-	}
+ 
+void MenuInicial (){
+    //Menu Inicial
+    int MenuInic;
+    cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+    cout <<setw(25)<< "MENU INICIAL\n\n";
+    cout <<setw(10)<< "1 - CADASTRO FUNCIONARIO\n";
+    cout <<setw(10)<< "2 - CONSULTAR FUNCIONARIO\n";
+    cout <<setw(10)<< "3 - ORDERNAR FUNCIONARIO\n";
+    cout <<setw(10)<< "4 - EXCLUIR FUNCIONARIO\n";
+    cout <<setw(10)<< "5 - EXIBIR LISTA DE FUNCIONARIOS\n\n";
+    cout <<setw(10)<< "6 - SOBRE O PROGRAMA\n\n";
+    cout <<setw(10)<< ">>  DIGITE UMA OPCAO: ";
+    cin>> MenuInic;
+    system("cls");
+   
+    switch (MenuInic){
+        case 1:
+            //Cadastro de Funcionario
+            FuncCadastro ();
+            break;
+                       
+        case 2:
+            //Menu Consulta
+            MenuConsulta ();
+            break;
+       
+        case 3:
+            cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+            cout << "EM CONSTRUCAO\n\n";
+            break;
+       
+        case 4:
+            FuncExcluir ();
+            break;
+       
+        case 5:
+            cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+            cout << "EM CONSTRUCAO\n\n";
+            break;
+       
+        case 6:
+            cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+            cout << "EM CONSTRUCAO\n\n";
+            break;
+       
+        default:
+            cout << "OPCAO INVALIDA\n\n";
+            system("pause");
+            system("cls");
+            MenuInicial();
+            break;
+    }
 }
-
-void MenuConsulta(){
-			//Consultar Funcionario
-			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
-			cout <<setw(25)<< "MENU CONSULTA\n\n";
-			cout <<setw(10)<< "1 - CONSULTAR POR CODIGO\n";
-			cout <<setw(10)<< "2 - CONSULTAR POR NOME\n";
-			cout <<setw(10)<< "3 - CONSULTAR POR CPF\n";
-			cout <<setw(10)<< "4 - VOLTAR A MENU INCIAL\n\n";
-			cout <<setw(10)<< ">>  DIGITE UMA OPCAO: ";
-			cin>> MenuConsult;
-			system("cls");
-						
-			switch (MenuConsult){
-				case 1: 
-				//Consultar Funcionario Codigo
-				FuncConsultaCod ();
-				break;
-						
-				case 2:
-				//Consultar Funcionario Nome
-				FuncConsultaNome ();
-				break;
-		
-				case 3:
-				//Consultar Funcionario CPF
-				FuncConsultaCPF ();
-				break;
-		
-				case 4:
-				//Menu Inicial
-				MenuInicial();
-				break;
-			
-				default:
-				cout << "OPCAO INVALIDA\n\n";
-				system("pause");
-				system("cls");
-				MenuConsulta();
-				break;
-			}
+ 
+void MenuConsulta (){
+    //Consultar Funcionario
+    int MenuConsult;
+    cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+    cout <<setw(25)<< "MENU CONSULTA\n\n";
+    cout <<setw(10)<< "1 - CONSULTAR POR CODIGO\n";
+    cout <<setw(10)<< "2 - CONSULTAR POR NOME\n";
+    cout <<setw(10)<< "3 - CONSULTAR POR CPF\n";
+    cout <<setw(10)<< "4 - VOLTAR A MENU INCIAL\n\n";
+    cout <<setw(10)<< ">>  DIGITE UMA OPCAO: ";
+    cin>> MenuConsult;
+    system("cls");
+                       
+        switch (MenuConsult){
+        case 1:
+        //Consultar Funcionario Codigo
+        FuncConsultaCod ();
+        break;
+           
+        case 2:
+        //Consultar Funcionario Nome
+        FuncConsultaNome ();
+        break;
+       
+        case 3:
+        //Consultar Funcionario CPF
+        FuncConsultaCPF ();
+        break;
+ 
+        case 4:
+        //Menu Inicial
+        MenuInicial();
+        break;
+   
+        default:
+        cout << "OPCAO INVALIDA\n\n";
+        system("pause");
+        system("cls");
+        MenuConsulta();
+        break;
+        }
 }
-
+ 
+void MenuOrdenar (){
+    //Ordenar Funcionário
+    int MenuOrden;
+    cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+    cout <<setw(25)<< "MENU ORDENAR\n\n";
+    cout <<setw(10)<< "1 - ORDENAR POR CODIGO\n";
+    cout <<setw(10)<< "2 - ORDENAAR POR NOME\n";
+    cout <<setw(10)<< "3 - ORDENAR POR DATA DE ADMISSÃO\n";
+    cout <<setw(10)<< "4 - VOLTAR A MENU INCIAL\n\n";
+    cout <<setw(10)<< ">>  DIGITE UMA OPCAO: ";
+    cin>> MenuOrden;
+    system("cls");
+               
+        switch (MenuOrden){
+        case 1:
+        //Consultar Funcionario Codigo
+        //OrdenarCod ();
+        break;
+   
+        case 2:
+        //Consultar Funcionario Nome
+        //OrdenarNome ();
+       
+        break;
+ 
+        case 3:
+        //Consultar Funcionario CPF
+        //OrdenarDataAdm ();
+        break;
+ 
+        case 4:
+        //Menu Inicial
+        MenuInicial();
+        break;
+   
+        default:
+        cout << "OPCAO INVALIDA\n\n";
+        system("pause");
+        system("cls");
+        MenuOrdenar();
+        break;
+        }
+}
+ 
 void FuncCadastro (){
-			//Cadastro de Funcionario
-		
-			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n";
-			int Qtd;
-			cout << "DESEJA CADASTRAR QUANTOS FUNCIONARIOS: ";
-			cin >> Qtd;
-			system("cls");
-			cin.ignore();
-			
-			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n";
-			for (int x=0; x<Qtd; x++){
-			cout <<"DIGITE O CODIGO DE CADASTRO(0-ALEATORIO): ";
-			cin >> Cadastro[x].CodCad;
-			cin.ignore();
-			//Gerar Codigos Aleatorios
-			//if (Cadastro[x].CodCad==0)
-			
-			cout << "DIGITE O NOME DO FUNCIONARIO: ";
-			cin.getline (Cadastro[x].Nome, 51);
-			
-			//Todas letras Maiuscula
-			Maiuscula (Cadastro[x].Nome);
-			
-			//VALIDAÇÃO DE CPF			
-			int control=0;
-			while (control==0) {
-				cout <<"DIGITE O CPF(SOMENTE NUMEROS): ";
-				cin.getline (Cadastro[x].CPF, 12, '\n');
-				control=ValCPF();
-				if (control==0)
-					cout << "\nCPF INVALIDO!\n";
-			}
-						
-			cout << "DIGITE O DATA DE NASCIMENTO(DIA(00) MES(00) ANO(0000)): ";
-			cin >> Cadastro[x].Nasc.Dia >> Cadastro[x].Nasc.Mes >> Cadastro[x].Nasc.Ano;
-			cin.ignore();
-			cout << "DIGITE O EMAIL(USUARIO@PROVEDOR.COM.BR): ";
-			cin.getline (Cadastro[x].Email, 31);
-			
-			//Todas letras Maiuscula
-			Maiuscula (Cadastro[x].Email);
-			
-			cout << "DIGITE O CARGO: ";
-			cin.getline (Cadastro[x].Cargo, 31);
-			
-			//Todas letras Maiuscula
-			Maiuscula (Cadastro[x].Cargo);
-			
-			cout << "DIGITE A DATA DE ADMISSAO(DIA(00) MES(00) ANO(0000)): ";
-			cin >> Cadastro[x].Admissao.Dia >> Cadastro[x].Admissao.Mes >> Cadastro[x].Admissao.Ano;
-			cout << "DIGITE O SALARIO INICIAL: ";
-			cin >> Cadastro[x].SalIni;
-			cout << "\n\n";
-					
-			//Cálculo de Aumento Salário
-			if (Cadastro[x].Admissao.Ano < 2017){
-				int TotalAno;
-				TotalAno=(2017 - Cadastro[x].Admissao.Ano);
-					for (int z=0; z<TotalAno; z++)
-					Cadastro[x].SalAtual= Cadastro[x].SalIni*pow((1+0.05), TotalAno);
-			}
-		}
-			
-			//Confirmação de dados
-			system("cls");
-			cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n";
-			for (int x=0; x<Qtd; x++){		
-			cout << "\nCODIGO: " << Cadastro[x].CodCad;
-			cout << "\nNOME: " << Cadastro[x].Nome;
-			cout << "\nCPF: " << Cadastro[x].CPF;
-			cout << "\nDATA DE NASCIMENTO: " << Cadastro[x].Nasc.Dia <<"/"<< Cadastro[x].Nasc.Mes <<"/"<< Cadastro[x].Nasc.Ano;
-			cout << "\nEMAIL: " << Cadastro[x].Email;
-			cout << "\nCARGO: " << Cadastro[x].Cargo;
-			cout << "\nDATA DA ADMISSAO: " << Cadastro[x].Admissao.Dia <<"/"<< Cadastro[x].Admissao.Mes <<"/"<< Cadastro[x].Admissao.Ano;
-			cout << "\nSALARIO INICIAL: " << Cadastro[x].SalIni;
-			if (Cadastro[x].Admissao.Ano < 2017)
-			cout << "\nSALARIO ATUAL: " << Cadastro[x].SalAtual;
-			cout << "\n\n";
-			}
-			
-			bool Acerto;
-			cout << "\n>> OS DADOS CONFEREM(1-SIM 0-NAO): ";
-			cin >> Acerto;
-			
-			if (Acerto==0)
-				FuncCadastro ();
-			else
-				system("cls");
-				MenuInicial();
-			
-			
-			cin.ignore();
-			cout << "\n\n";
-			
+            //Cadastro de Funcionario
+       
+            cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n";
+            cout << "DESEJA CADASTRAR QUANTOS FUNCIONARIOS: ";
+            cin >> Qtd;
+            system("cls");
+            cin.ignore();
+           
+            cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n";
+            for (int x=0; x<Qtd; x++){
+            cout <<"DIGITE O CODIGO DE CADASTRO(0-ALEATORIO): ";
+            cin >> Cadastro[x].CodCad;
+            cin.ignore();
+            //Gerar Codigos Aleatorios
+            //if (Cadastro[x].CodCad==0)
+           
+            cout << "DIGITE O NOME DO FUNCIONARIO: ";
+            cin.getline (Cadastro[x].Nome, 51);
+           
+            //Todas letras Maiuscula
+            Maiuscula (Cadastro[x].Nome);
+           
+            //VALIDAÇÃO DE CPF           
+            int control=0;
+            while (control==0) {
+                cout <<"DIGITE O CPF(SOMENTE NUMEROS): ";
+                cin.getline (Cadastro[x].CPF, 12, '\n');
+                control=ValCPF();
+                if (control==0)
+                    cout << "\nCPF INVALIDO!\n";
+            }
+                       
+            cout << "DIGITE O DATA DE NASCIMENTO(DIA(00) MES(00) ANO(0000)): ";
+            cin >> Cadastro[x].Nasc.Dia >> Cadastro[x].Nasc.Mes >> Cadastro[x].Nasc.Ano;
+            cin.ignore();
+            cout << "DIGITE O EMAIL(USUARIO@PROVEDOR.COM.BR): ";
+            cin.getline (Cadastro[x].Email, 31);
+           
+            //Todas letras Maiuscula
+            Maiuscula (Cadastro[x].Email);
+           
+            cout << "DIGITE O CARGO: ";
+            cin.getline (Cadastro[x].Cargo, 31);
+           
+            //Todas letras Maiuscula
+            Maiuscula (Cadastro[x].Cargo);
+           
+            cout << "DIGITE A DATA DE ADMISSAO(DIA(00) MES(00) ANO(0000)): ";
+            cin >> Cadastro[x].Admissao.Dia >> Cadastro[x].Admissao.Mes >> Cadastro[x].Admissao.Ano;
+            cout << "DIGITE O SALARIO INICIAL: ";
+            cin >> Cadastro[x].SalIni;
+            cout << "\n\n";
+                   
+            //Cálculo de Aumento Salário
+            if (Cadastro[x].Admissao.Ano < 2017){
+                int TotalAno;
+                TotalAno=(2017 - Cadastro[x].Admissao.Ano);
+                    for (int z=0; z<TotalAno; z++)
+                    Cadastro[x].SalAtual= Cadastro[x].SalIni*pow((1+0.05), TotalAno);
+            }
+        }
+           
+            //Confirmação de dados
+            system("cls");
+            cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n";
+            for (int x=0; x<Qtd; x++){     
+            cout << "\nCODIGO: " << Cadastro[x].CodCad;
+            cout << "\nNOME: " << Cadastro[x].Nome;
+            cout << "\nCPF: " << Cadastro[x].CPF;
+            cout << "\nDATA DE NASCIMENTO: " << Cadastro[x].Nasc.Dia <<"/"<< Cadastro[x].Nasc.Mes <<"/"<< Cadastro[x].Nasc.Ano;
+            cout << "\nEMAIL: " << Cadastro[x].Email;
+            cout << "\nCARGO: " << Cadastro[x].Cargo;
+            cout << "\nDATA DA ADMISSAO: " << Cadastro[x].Admissao.Dia <<"/"<< Cadastro[x].Admissao.Mes <<"/"<< Cadastro[x].Admissao.Ano;
+            cout << "\nSALARIO INICIAL: " << Cadastro[x].SalIni;
+            if (Cadastro[x].Admissao.Ano < 2017)
+            cout << "\nSALARIO ATUAL: " << Cadastro[x].SalAtual;
+            cout << "\n\n";
+            }
+           
+            bool Acerto;
+            cout << "\n>> OS DADOS CONFEREM(1-SIM 0-NAO): ";
+            cin >> Acerto;
+           
+            if (Acerto==0)
+                FuncCadastro ();
+            else
+                system("cls");
+                MenuInicial();
+           
+           
+            cin.ignore();
+            cout << "\n\n";
+           
 }
-	
+   
 void FuncConsultaCod (){
-	int Consulta=0;
-	cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
-	cout <<setw(10)<< ">>  DIGITE O CODIGO DO FUNCIONARIO: ";
-	cin >> Consulta;
-		
-		for (int z=0; z<50; z++){
-			while (Consulta==Cadastro[z].CodCad){
-				cout << "\nCODIGO: " << Cadastro[z].CodCad;
-				cout << "\nNOME: " << Cadastro[z].Nome;
-				cout << "\nCPF: " << Cadastro[z].CPF;
-				cout << "\nDATA DE NASCIMENTO: " << Cadastro[z].Nasc.Dia <<"/"<< Cadastro[z].Nasc.Mes <<"/"<< Cadastro[z].Nasc.Ano;
-				cout << "\nEMAIL: " << Cadastro[z].Email;
-				cout << "\nCARGO: " << Cadastro[z].Cargo;
-				cout << "\nDATA DA ADMISSAO: " << Cadastro[z].Admissao.Dia <<"/"<< Cadastro[z].Admissao.Mes <<"/"<< Cadastro[z].Admissao.Ano;
-				cout << "\nSALARIO INICIAL: " << Cadastro[z].SalIni;
-				cout << "\nSALARIO ATUAL: " << Cadastro[z].SalAtual;
-				cout << "\n\n";
-				
-				bool Acerto;
-				cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
-				cin >> Acerto;
-			
-				if (Acerto==1){
-				system("cls");
-				FuncConsultaCod ();
-				}
-				else{
-					system("cls");
-					MenuConsulta();
-				}
-			}
-							
-					
-		}
-	cout << "\nCODIGO INEXISTENTE\n";
-
-	bool Acerto;
-	cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
-	cin >> Acerto;
-		
-	if (Acerto==1){
-	system("cls");
-	FuncConsultaCod ();
-	}
-	else{
-	system("cls");
-	MenuConsulta();
-	}
+    int Consulta=0;
+    cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+    cout <<setw(10)<< ">>  DIGITE O CODIGO DO FUNCIONARIO: ";
+    cin >> Consulta;
+       
+        for (int z=0; z<50; z++){
+            while (Consulta==Cadastro[z].CodCad){
+                cout << "\nCODIGO: " << Cadastro[z].CodCad;
+                cout << "\nNOME: " << Cadastro[z].Nome;
+                cout << "\nCPF: " << Cadastro[z].CPF;
+                cout << "\nDATA DE NASCIMENTO: " << Cadastro[z].Nasc.Dia <<"/"<< Cadastro[z].Nasc.Mes <<"/"<< Cadastro[z].Nasc.Ano;
+                cout << "\nEMAIL: " << Cadastro[z].Email;
+                cout << "\nCARGO: " << Cadastro[z].Cargo;
+                cout << "\nDATA DA ADMISSAO: " << Cadastro[z].Admissao.Dia <<"/"<< Cadastro[z].Admissao.Mes <<"/"<< Cadastro[z].Admissao.Ano;
+                cout << "\nSALARIO INICIAL: " << Cadastro[z].SalIni;
+                cout << "\nSALARIO ATUAL: " << Cadastro[z].SalAtual;
+                cout << "\n\n";
+               
+                bool Acerto;
+                cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
+                cin >> Acerto;
+           
+                if (Acerto==1){
+                system("cls");
+                FuncConsultaCod ();
+                }
+                else{
+                    system("cls");
+                    MenuConsulta();
+                }
+            }
+                           
+                   
+        }
+    cout << "\nCODIGO INEXISTENTE\n";
+ 
+    bool Acerto;
+    cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
+    cin >> Acerto;
+       
+    if (Acerto==1){
+    system("cls");
+    FuncConsultaCod ();
+    }
+    else{
+    system("cls");
+    MenuConsulta();
+    }
 }
-			
-void FuncConsultaNome(){
-	char Consulta[51];
-	cin.ignore();
-	cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
-	cout <<setw(10)<< ">>  DIGITE O NOME DO FUNCIONARIO: ";
-	cin.getline (Consulta, 51, '\n');
-	
-	//Todas letras Maiuscula
-			Maiuscula (Consulta);
-		
-		for (int z=0; z<50; z++){
-			while (strcmp (Consulta, Cadastro[z].Nome) == 0){
-				cout << "\nCODIGO: " << Cadastro[z].CodCad;
-				cout << "\nNOME: " << Cadastro[z].Nome;
-				cout << "\nCPF: " << Cadastro[z].CPF;
-				cout << "\nDATA DE NASCIMENTO: " << Cadastro[z].Nasc.Dia <<"/"<< Cadastro[z].Nasc.Mes <<"/"<< Cadastro[z].Nasc.Ano;
-				cout << "\nEMAIL: " << Cadastro[z].Email;
-				cout << "\nCARGO: " << Cadastro[z].Cargo;
-				cout << "\nDATA DA ADMISSAO: " << Cadastro[z].Admissao.Dia <<"/"<< Cadastro[z].Admissao.Mes <<"/"<< Cadastro[z].Admissao.Ano;
-				cout << "\nSALARIO INICIAL: " << Cadastro[z].SalIni;
-				cout << "\nSALARIO ATUAL: " << Cadastro[z].SalAtual;
-				cout << "\n\n";
-				
-				bool Acerto;
-				cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
-				cin >> Acerto;
-			
-				if (Acerto==1){
-				system("cls");
-				FuncConsultaNome ();
-				}
-				else{
-					system("cls");
-					MenuConsulta();
-				}
-			}
-							
-					
-		}
-	cout << "\nNOME INEXISTENTE\n";
-
-	bool Acerto;
-	cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
-	cin >> Acerto;
-		
-	if (Acerto==1){
-	system("cls");
-	FuncConsultaNome();
-	}
-	else{
-	system("cls");
-	MenuConsulta();
-	}	
+           
+void FuncConsultaNome (){
+    char Consulta[51];
+    cin.ignore();
+    cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+    cout <<setw(10)<< ">>  DIGITE O NOME DO FUNCIONARIO: ";
+    cin.getline (Consulta, 51, '\n');
+   
+    //Todas letras Maiuscula
+            Maiuscula (Consulta);
+       
+        for (int z=0; z<50; z++){
+            while (strcmp (Consulta, Cadastro[z].Nome) == 0){
+                cout << "\nCODIGO: " << Cadastro[z].CodCad;
+                cout << "\nNOME: " << Cadastro[z].Nome;
+                cout << "\nCPF: " << Cadastro[z].CPF;
+                cout << "\nDATA DE NASCIMENTO: " << Cadastro[z].Nasc.Dia <<"/"<< Cadastro[z].Nasc.Mes <<"/"<< Cadastro[z].Nasc.Ano;
+                cout << "\nEMAIL: " << Cadastro[z].Email;
+                cout << "\nCARGO: " << Cadastro[z].Cargo;
+                cout << "\nDATA DA ADMISSAO: " << Cadastro[z].Admissao.Dia <<"/"<< Cadastro[z].Admissao.Mes <<"/"<< Cadastro[z].Admissao.Ano;
+                cout << "\nSALARIO INICIAL: " << Cadastro[z].SalIni;
+                cout << "\nSALARIO ATUAL: " << Cadastro[z].SalAtual;
+                cout << "\n\n";
+               
+                bool Acerto;
+                cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
+                cin >> Acerto;
+           
+                if (Acerto==1){
+                system("cls");
+                FuncConsultaNome ();
+                }
+                else{
+                    system("cls");
+                    MenuConsulta();
+                }
+            }
+                           
+                   
+        }
+    cout << "\nNOME INEXISTENTE\n";
+ 
+    bool Acerto;
+    cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
+    cin >> Acerto;
+       
+    if (Acerto==1){
+    system("cls");
+    FuncConsultaNome();
+    }
+    else{
+    system("cls");
+    MenuConsulta();
+    }  
 }
-
+ 
 void FuncConsultaCPF (){
-	char Consulta[12];
-	cin.ignore();
-	cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
-	cout <<setw(10)<< ">>  DIGITE O CPF DO FUNCIONARIO: ";
-	cin.getline (Consulta, 12, '\n');
-		
-		for (int z=0; z<50; z++){
-			while (strcmp (Consulta, Cadastro[z].CPF) == 0){
-				cout << "\nCODIGO: " << Cadastro[z].CodCad;
-				cout << "\nNOME: " << Cadastro[z].Nome;
-				cout << "\nCPF: " << Cadastro[z].CPF;
-				cout << "\nDATA DE NASCIMENTO: " << Cadastro[z].Nasc.Dia <<"/"<< Cadastro[z].Nasc.Mes <<"/"<< Cadastro[z].Nasc.Ano;
-				cout << "\nEMAIL: " << Cadastro[z].Email;
-				cout << "\nCARGO: " << Cadastro[z].Cargo;
-				cout << "\nDATA DA ADMISSAO: " << Cadastro[z].Admissao.Dia <<"/"<< Cadastro[z].Admissao.Mes <<"/"<< Cadastro[z].Admissao.Ano;
-				cout << "\nSALARIO INICIAL: " << Cadastro[z].SalIni;
-				cout << "\nSALARIO ATUAL: " << Cadastro[z].SalAtual;
-				cout << "\n\n";
-				
-				bool Acerto;
-				cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
-				cin >> Acerto;
-			
-				if (Acerto==1){
-				system("cls");
-				FuncConsultaCPF ();
-				}
-				else{
-					system("cls");
-					MenuConsulta();
-				}
-			}
-							
-					
-		}
-	cout << "\nCPF INEXISTENTE\n";
-
-	bool Acerto;
-	cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
-	cin >> Acerto;
-		
-	if (Acerto==1){
-	system("cls");
-	FuncConsultaCPF ();
-	}
-	else{
-	system("cls");
-	MenuConsulta();
-	}	
+    char Consulta[12];
+    cin.ignore();
+    cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+    cout <<setw(10)<< ">>  DIGITE O CPF DO FUNCIONARIO: ";
+    cin.getline (Consulta, 12, '\n');
+       
+        for (int z=0; z<50; z++){
+            while (strcmp (Consulta, Cadastro[z].CPF) == 0){
+                cout << "\nCODIGO: " << Cadastro[z].CodCad;
+                cout << "\nNOME: " << Cadastro[z].Nome;
+                cout << "\nCPF: " << Cadastro[z].CPF;
+                cout << "\nDATA DE NASCIMENTO: " << Cadastro[z].Nasc.Dia <<"/"<< Cadastro[z].Nasc.Mes <<"/"<< Cadastro[z].Nasc.Ano;
+                cout << "\nEMAIL: " << Cadastro[z].Email;
+                cout << "\nCARGO: " << Cadastro[z].Cargo;
+                cout << "\nDATA DA ADMISSAO: " << Cadastro[z].Admissao.Dia <<"/"<< Cadastro[z].Admissao.Mes <<"/"<< Cadastro[z].Admissao.Ano;
+                cout << "\nSALARIO INICIAL: " << Cadastro[z].SalIni;
+                cout << "\nSALARIO ATUAL: " << Cadastro[z].SalAtual;
+                cout << "\n\n";
+               
+                bool Acerto;
+                cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
+                cin >> Acerto;
+           
+                if (Acerto==1){
+                system("cls");
+                FuncConsultaCPF ();
+                }
+                else{
+                    system("cls");
+                    MenuConsulta();
+                }
+            }
+                           
+                   
+        }
+    cout << "\nCPF INEXISTENTE\n";
+ 
+    bool Acerto;
+    cout << "\n>> DESEJA FAZER UMA NOVA CONSULTA(1-SIM 0-NAO): ";
+    cin >> Acerto;
+       
+    if (Acerto==1){
+    system("cls");
+    FuncConsultaCPF ();
+    }
+    else{
+    system("cls");
+    MenuConsulta();
+    }  
 }
-
-void Maiuscula (char n[]){
-int z;
-	for (z=0; z<strlen(n); z++)
-	n[z]=toupper(n[z]);
+ 
+int OrdenarCod (Dados Cadastro[], int Pos){
+   
+Dados Aux;
+int i, j, min;
+if (Pos == 0){
+cout << "ERRO: NENHUM DADO CADASTRADO.\n\n";
+cout << "FAVOR INSERIR OS DADOS DE CADASTRADO.";
+return 0;
 }
-
-int ValCPF (){
-	int CPFInt[11];
-	
-	for (char i=0; i<11; i++){
-		CPFInt[i]= static_cast<int>(Cadastro[x].CPF[i] - 48);
-		//Convertendo char para valor absoluto segundo tabela ASCII e passando para array de inteiros
-		
-		if (CPFInt[i]<0 || CPFInt[i]>9) //Validando entrada de Dados
-			return 0;
-	}
-	
-	//Validação 1º Dígito
-	int Somador=0, Digito1=0, Digito2=0, Result1, Result2, Valor;
-	
-	for(int i=0; i<9; i++)
-		Somador+=CPFInt[i]*(10-i);
-		
-	Result1=Somador%11;
-	
-	if ((Result1==0)||(Result1==1))
-		Digito1=0;
-		
-		else
-		Digito1=11-Result1;
-	
-	//Validação 2º Dígito
-	Somador=0;
-	
-	for(int i=0; i<9; i++)
-		Somador+=CPFInt[i]*(11-i);
-		
-	Valor=(Somador/11)*11;  
-	Result2=Somador-Valor;
-	
-	//RESULTADOS DA VALIDACAO.  
-  
-	if((Digito1!=CPFInt[9]) && (Digito2!=CPFInt[10]))
-		return 0;
-	
-  
-	
-	for (int z=0; z<9; z++){
-		if(CPFInt[z]==CPFInt[z+1])
-		return 0;
-	}
-
-return 1;	
+for (i = 0; i < (Pos-1); i++)
+{
+min = i;
+for (j = (i+1); j < Pos; j++) {
+if(Cadastro[j].CodCad < Cadastro[min].CodCad) {
+min = j;
 }
-
+}
+if (i != min) {
+Aux = Cadastro[i];
+Cadastro[i] = Cadastro[min];
+Cadastro[min] = Aux;
+}
+}
+return 1;
+}
+ 
+int OrdenarNome (Dados Cadastro[], int Pos){
+   
+}
+ 
+int OrdenarDataAdm (Dados Cadastro[], int Pos){
+   
+Dados Aux;
+int i, j, min;
+if (Pos == 0){
+cout << "ERRO: NENHUM DADO CADASTRADO.\n\n";
+cout << "FAVOR INSERIR OS DADOS DE CADASTRADO.";
+return 0;
+}
+for (i = 0; i < (Pos-1); i++)
+{
+min = i;
+for (j = (i+1); j < Pos; j++) {
+if(Cadastro[j].Admissao.Ano < Cadastro[min].Admissao.Ano && Cadastro[j].Admissao.Mes < Cadastro[min].Admissao.Mes && Cadastro[j].Admissao.Dia < Cadastro[min].Admissao.Dia) {
+min = j;
+}
+}
+if (i != min) {
+Aux = Cadastro[i];
+Cadastro[i] = Cadastro[min];
+Cadastro[min] = Aux;
+}
+}
+return 1;
+}
+ 
 void FuncExcluir (){
-	cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
-		cout <<setw(10)<< ">>  DIGITE O CODIGO DO FUNCIONARIO: ";
-		int CodExcluir;
-		cin >> CodExcluir;
-		
-		for (int x=0; x<50; x++){
-			if (CodExcluir==Cadastro[x].CodCad){
-				cout << "\nCODIGO: " << Cadastro[x].CodCad;
-				cout << "\nNOME: " << Cadastro[x].Nome;
-				cout << "\nCPF: " << Cadastro[x].CPF;
-				cout << "\nDATA DE NASCIMENTO: " << Cadastro[x].Nasc.Dia <<"/"<< Cadastro[x].Nasc.Mes <<"/"<< Cadastro[x].Nasc.Ano;
-				cout << "\nEMAIL: " << Cadastro[x].Email;
-				cout << "\nCARGO: " << Cadastro[x].Cargo;
-				cout << "\nDATA DA ADMISSAO: " << Cadastro[x].Admissao.Dia <<"/"<< Cadastro[x].Admissao.Mes <<"/"<< Cadastro[x].Admissao.Ano;
-				cout << "\nSALARIO INICIAL: " << Cadastro[x].SalIni;
-				if (Cadastro[x].Admissao.Ano < 2017)
-				cout << "\nSALARIO ATUAL: " << Cadastro[x].SalAtual;
-				cout << "\n\n";
-				
-				bool Acerto;
-				cout << "\n>> DESEJA FAZER A EXCLUSAO DESTE FUNCIONARIO CONSULTA(1-SIM 0-NAO): ";
-				cin >> Acerto;
-				if (Acerto==1){
-					for (int x=0; x<50; x++){
-					if (CodExcluir==Cadastro[x].CodCad){
-						Cadastro[x].CodCad='\0';
-						Cadastro[x].Nome[51]='\0';
-						Cadastro[x].CPF[12]= '\0';
-						Cadastro[x].Nasc.Dia= '\0'; Cadastro[x].Nasc.Mes='\0'; Cadastro[x].Nasc.Ano='\0';
-						Cadastro[x].Email[31]='\0';
-						Cadastro[x].Cargo[31]='\0';
-						Cadastro[x].Admissao.Dia='\0'; Cadastro[x].Admissao.Mes='\0'; Cadastro[x].Admissao.Ano='\0';
-						Cadastro[x].SalIni='\0';
-						Cadastro[x].SalAtual='\0';
-						cout << "\n\n";
-						cout << "DADOS DO FUNCIONARIO FORAM EXCLUIDOS";
-				
-						cout << "\n>> DESEJA FAZER UMA NOVA EXCLUSAO(1-SIM 0-NAO): ";
-						cin >> Acerto;
-						if (Acerto==1){
-						system("cls");
-						FuncExcluir ();
-						}
-						else{
-						system("cls");
-						MenuInicial();
-						}		
-						break;
-					}
-				else{
-					cout << "\nCODIGO INEXISTENTE\n";
-				
-					bool Acerto;
-					cout << "\n>> DESEJA FAZER UMA NOVA EXCLUSAO(1-SIM 0-NAO): ";
-					cin >> Acerto;
-			
-					if (Acerto==1){
-						system("cls");
-						FuncExcluir ();
-					}
-					else{
-						system("cls");
-						MenuInicial();
-					}	
-				}
-		}
-					FuncExcluir ();
-				}
-				else{
-					system("cls");
-					MenuConsulta();
-				}	
-				break;
-			}
-				else{
-					cout << "\nCODIGO INEXISTENTE\n";
-				
-					bool Acerto;
-					cout << "\n>> DESEJA FAZER UMA NOVA EXCLUSAO(1-SIM 0-NAO): ";
-					cin >> Acerto;
-			
-					if (Acerto==1){
-						system("cls");
-						FuncExcluir ();
-					}
-					else{
-						system("cls");
-						MenuInicial();
-					}	
-				}
-		}	
-	}
-
-
-
+    cout <<setw(50)<< "PROGRAMA DE VERAO C++\n\n\n" ;
+        cout <<setw(10)<< ">>  DIGITE O CODIGO DO FUNCIONARIO: ";
+        int CodExcluir;
+        cin >> CodExcluir;
+       
+        for (int x=0; x<50; x++){
+            if (CodExcluir==Cadastro[x].CodCad){
+                cout << "\nCODIGO: " << Cadastro[x].CodCad;
+                cout << "\nNOME: " << Cadastro[x].Nome;
+                cout << "\nCPF: " << Cadastro[x].CPF;
+                cout << "\nDATA DE NASCIMENTO: " << Cadastro[x].Nasc.Dia <<"/"<< Cadastro[x].Nasc.Mes <<"/"<< Cadastro[x].Nasc.Ano;
+                cout << "\nEMAIL: " << Cadastro[x].Email;
+                cout << "\nCARGO: " << Cadastro[x].Cargo;
+                cout << "\nDATA DA ADMISSAO: " << Cadastro[x].Admissao.Dia <<"/"<< Cadastro[x].Admissao.Mes <<"/"<< Cadastro[x].Admissao.Ano;
+                cout << "\nSALARIO INICIAL: " << Cadastro[x].SalIni;
+                if (Cadastro[x].Admissao.Ano < 2017)
+                cout << "\nSALARIO ATUAL: " << Cadastro[x].SalAtual;
+                cout << "\n\n";
+               
+                bool Acerto;
+                cout << "\n>> DESEJA FAZER A EXCLUSAO DESTE FUNCIONARIO CONSULTA(1-SIM 0-NAO): ";
+                cin >> Acerto;
+                if (Acerto==1){
+                    for (int x=0; x<50; x++){
+                    if (CodExcluir==Cadastro[x].CodCad){
+                        Cadastro[x].CodCad='\0';
+                        Cadastro[x].Nome[51]='\0';
+                        Cadastro[x].CPF[12]= '\0';
+                        Cadastro[x].Nasc.Dia= '\0'; Cadastro[x].Nasc.Mes='\0'; Cadastro[x].Nasc.Ano='\0';
+                        Cadastro[x].Email[31]='\0';
+                        Cadastro[x].Cargo[31]='\0';
+                        Cadastro[x].Admissao.Dia='\0'; Cadastro[x].Admissao.Mes='\0'; Cadastro[x].Admissao.Ano='\0';
+                        Cadastro[x].SalIni='\0';
+                        Cadastro[x].SalAtual='\0';
+                        cout << "\n\n";
+                        cout << "DADOS DO FUNCIONARIO FORAM EXCLUIDOS";
+               
+                        cout << "\n>> DESEJA FAZER UMA NOVA EXCLUSAO(1-SIM 0-NAO): ";
+                        cin >> Acerto;
+                        if (Acerto==1){
+                        system("cls");
+                        FuncExcluir ();
+                        }
+                        else{
+                        system("cls");
+                        MenuInicial();
+                        }      
+                        break;
+                    }
+                else{
+                    cout << "\nCODIGO INEXISTENTE\n";
+               
+                    bool Acerto;
+                    cout << "\n>> DESEJA FAZER UMA NOVA EXCLUSAO(1-SIM 0-NAO): ";
+                    cin >> Acerto;
+           
+                    if (Acerto==1){
+                        system("cls");
+                        FuncExcluir ();
+                    }
+                    else{
+                        system("cls");
+                        MenuInicial();
+                    }  
+                }
+        }
+                    FuncExcluir ();
+                }
+                else{
+                    system("cls");
+                    MenuConsulta();
+                }  
+                break;
+            }
+                else{
+                    cout << "\nCODIGO INEXISTENTE\n";
+               
+                    bool Acerto;
+                    cout << "\n>> DESEJA FAZER UMA NOVA EXCLUSAO(1-SIM 0-NAO): ";
+                    cin >> Acerto;
+           
+                    if (Acerto==1){
+                        system("cls");
+                        FuncExcluir ();
+                    }
+                    else{
+                        system("cls");
+                        MenuInicial();
+                    }  
+                }
+        }  
+    }
+ 
+void Maiuscula (char n[]){
+    int z;
+    for (z=0; z<strlen(n); z++)
+    n[z]=toupper(n[z]);
+}
+ 
+int ValCPF (){
+    int CPFInt[11];
+   
+    for (char i=0; i<11; i++){
+        CPFInt[i]= static_cast<int>(Cadastro[x].CPF[i] - 48);
+        //Convertendo char para valor absoluto segundo tabela ASCII e passando para array de inteiros
+       
+        if (CPFInt[i]<0 || CPFInt[i]>9) //Validando entrada de Dados
+            return 0;
+    }
+   
+    //Validação 1º Dígito
+    int Somador=0, Digito1=0, Digito2=0, Result1, Result2, Valor;
+   
+    for(int i=0; i<9; i++)
+        Somador+=CPFInt[i]*(10-i);
+       
+    Result1=Somador%11;
+   
+    if ((Result1==0)||(Result1==1))
+        Digito1=0;
+       
+        else
+        Digito1=11-Result1;
+   
+    //Validação 2º Dígito
+    Somador=0;
+   
+    for(int i=0; i<9; i++)
+        Somador+=CPFInt[i]*(11-i);
+       
+    Valor=(Somador/11)*11;  
+    Result2=Somador-Valor;
+   
+    //RESULTADOS DA VALIDACAO.  
+ 
+    if((Digito1!=CPFInt[9]) && (Digito2!=CPFInt[10]))
+        return 0;
+   
+ 
+   
+    for (int z=0; z<9; z++){
+        if(CPFInt[z]==CPFInt[z+1])
+        return 0;
+    }
+ 
+return 1;  
+}
